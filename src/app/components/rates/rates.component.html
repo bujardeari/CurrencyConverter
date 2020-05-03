@@ -1,0 +1,45 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="form-group col-md-4">
+      <label for="base">Select base currency</label>
+      <div class="input-group">
+        <select
+          class="form-control"
+          name="base"
+          id="bae"
+          [ngModel]="initialBase"
+          (ngModelChange)="base = $event"
+          *ngIf="supportedSymbols"
+        >
+          <option
+            *ngFor="let currency of supportedSymbols['symbols'] | keyvalue"
+            [ngValue]="currency.key"
+            [disabled]="currency.key !== 'EUR'"
+            >{{ currency.key }}</option
+          >
+        </select>
+      </div>
+      <small class="text-muted">Only some valutas available in free version. Try EUR!</small>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="">&nbsp;</label>
+      <div class="input-group">
+        <button class="btn btn-sm btn-primary" (click)="getExchangeRates()">Get Rates</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="rates">
+    <div class="col-md-6">
+      <ul class="list-group">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          *ngFor="let rate of rates | keyvalue"
+        >
+          {{ rate.key }}
+          <span>{{ rate.value | number: '1.0-2' }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

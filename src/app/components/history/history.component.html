@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="jumbotron text-center">
+      <h5>Conversions History</h5>
+      <div class="row" *ngFor="let conversion of conversions">
+        <div class="col-4">{{ conversion.date | date: 'MM/dd/yyyy' }}</div>
+        <div class="col-4">
+          <span>{{ conversion.base.amount }} </span> {{ conversion.base.code }}
+        </div>
+        <div class="col-4">
+          <span>{{ conversion.second.amount | number: '1.0-2' }} </span>{{ conversion.second.code }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="jumbotron">
+      <h5>Rates History</h5>
+      <div class="row" *ngFor="let rates of ratesHistory">
+        <div class="col">
+          <p>
+            Time: <span>{{ rates.timestamp * 1000 | date: 'long' }}</span>
+          </p>
+        </div>
+        <div class="col">Base: {{ rates.base }}</div>
+        <div class="col">
+          <ng-container *ngFor="let rate of rates.rates | keyvalue">
+            <p *ngIf="['NOK', 'USD', 'CAD'].includes(rate.key)">
+              {{ rate.key }} <span>{{ rate.value | number: '1.0-2' }}</span>
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

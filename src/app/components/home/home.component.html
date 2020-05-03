@@ -1,0 +1,76 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+      <label for="datepicker">Choose date</label>
+      <input
+        id="datepicker"
+        type="text"
+        [(ngModel)]="date"
+        [maxDate]="maxDate"
+        placeholder="Datepicker"
+        class="form-control "
+        bsDatepicker
+        [bsConfig]="bsConfig"
+      />
+    </div>
+  </div>
+  <div class="row" *ngIf="supportedSymbols">
+    <div class="form-group col-3">
+      <label for="amount">Amount</label>
+      <input
+        id="amount"
+        [(ngModel)]="base.amount"
+        (ngModelChange)="second.amount = null"
+        type="text"
+        class="form-control"
+        placeholder=""
+        aria-label="amount"
+      />
+    </div>
+    <div class="form-group col-3">
+      <label for="firstCurrency">From</label>
+      <select
+        class="form-control"
+        name="baseCurrency"
+        id="bae"
+        [ngModel]="base.code"
+        (ngModelChange)="base.code = $event; second.amount = null"
+      >
+        <option
+          *ngFor="let currency of supportedSymbols['symbols'] | keyvalue"
+          [ngValue]="currency.key"
+          [disabled]="currency.key !== 'EUR'"
+        >
+          {{ currency.key }}</option
+        >
+      </select>
+    </div>
+
+    <div class="form-group col-3">
+      <label for="secondCurrency">To</label>
+      <select
+        class="form-control"
+        name="second"
+        id="bae"
+        [ngModel]="second.code"
+        (ngModelChange)="second.code = $event; second.amount = null"
+      >
+        <option *ngFor="let currency of supportedSymbols['symbols'] | keyvalue" [ngValue]="currency.key">{{
+          currency.key
+        }}</option>
+      </select>
+    </div>
+    <div class="form-group col-1">
+      <label for="">&nbsp;</label>
+      <div class="input-group">
+        <button class="btn btn-sm btn-primary" (click)="calculate()">Convert</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="second.amount">
+    <div class="col-12 text-center">
+      <h4>{{ base.amount }}&nbsp;{{ base.code }}&nbsp;=</h4>
+      <h1>{{ second.amount | number: '1.0-2' }}&nbsp;{{ second.code }}</h1>
+    </div>
+  </div>
+</div>
